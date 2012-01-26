@@ -11,24 +11,24 @@
 #include <sstream>
 #include <Python.h>
 
-typedef std::set<int>			int_set;
-typedef std::vector<int>		int_vec;
-typedef std::vector<int_vec>		int_vec2;
-typedef std::pair<int, int_vec>		edge;
+  typedef std::set<int>			int_set;
+  typedef std::vector<int>		int_vec;
+  typedef std::vector<int_vec>		int_vec2;
+  typedef std::pair<int, int_vec>	edge;
 
-typedef DelaneySymbol<int>				GenericDSymbol;
-typedef SimpleDelaneySymbol				DSymbol;
-typedef DualDelaneySymbol<int>				DualDSymbol;
-typedef SectionDelaneySymbol<int>			SectionDSymbol;
-typedef DelaneySubsymbol<int>				DSubsymbol;
-typedef TraversedDelaneySymbol<int>			DSymbolBFS;
-typedef TraversedDelaneySymbol<int, Stack<edge> >	DSymbolDFS;
-typedef TraversedDelaneySymbol<int, PriorityQueue<edge,
+  typedef DelaneySymbol<int>				GenericDSymbol;
+  typedef SimpleDelaneySymbol				DSymbol;
+  typedef DualDelaneySymbol<int>			DualDSymbol;
+  typedef SectionDelaneySymbol<int>			SectionDSymbol;
+  typedef DelaneySubsymbol<int>				DSubsymbol;
+  typedef TraversedDelaneySymbol<int>			DSymbolBFS;
+  typedef TraversedDelaneySymbol<int, Stack<edge> >	DSymbolDFS;
+  typedef TraversedDelaneySymbol<int, PriorityQueue<edge,
 						  std::vector<edge>,
 						  std::greater<edge> > >
   							DSymbolEPS;
-typedef TraversedDelaneySymbol<int, IPBag<int> >	DSymbolIPS;
-typedef BinaryDelaneyCover<int>			        BinCoverDSymbol;
+  typedef TraversedDelaneySymbol<int, IPBag<int> >	DSymbolIPS;
+  typedef BinaryDelaneyCover<int>	        	BinCoverDSymbol;
 %}
 
 
@@ -126,11 +126,10 @@ typedef BinaryDelaneyCover<int>			        BinCoverDSymbol;
 
 class GenericDSymbol {
 public:
-  /*
-    Returns the dimension of the symbol.
-    (Declared pure virtual to keep Swig from wrapping a constructor.)
-  */
-  virtual int dim() const = 0;
+  virtual ~GenericDSymbol() = 0;
+
+  /* Returns the dimension of the symbol. */
+  int dim() const;
 
   /* Returns the size of the symbol. */
   int size() const;
@@ -252,9 +251,6 @@ public:
   /* Constructs a dynamic Delaney symbol of dimension dim and size sz. */
   DSymbol(int dim, int sz);
 
-  /* Redeclare this to tell Swig this class is not virtual. */
-  int dim() const;
-
   /*
     Makes op(i) undefined on D. To keep the symbol consistent, op(i)
     is also made undefined on the former image of op(i) on D. Returns
@@ -308,9 +304,6 @@ class DualDSymbol : public GenericDSymbol {
 public:
   /* Constructs a dual symbol from any given symbol. */
   DualDSymbol(const GenericDSymbol& ds);
-
-  /* Redeclare this to tell Swig this class is not virtual. */
-  int dim() const;
 };
 
 
@@ -321,9 +314,6 @@ class SectionDSymbol : public GenericDSymbol {
 public:
   /* Constructs a section from a base symbol and a list of indices. */
   SectionDSymbol(const GenericDSymbol& ds, const int_set& indices);
-
-  /* Redeclare this to tell Swig this class is not virtual. */
-  int dim() const;
 };
 
 
@@ -339,9 +329,6 @@ public:
   DSubsymbol(const GenericDSymbol& ds,
 	     const int_set& indices,
 	     const int_vec& seed);
-
-  /* Redeclare this to tell Swig this class is not virtual. */
-  int dim() const;
 };
 
 
@@ -356,9 +343,6 @@ public:
     the first element of the base symbol is used.
   */
   DSymbolBFS(const GenericDSymbol& ds, const int_vec& seed);
-
-  /* Redeclare this to tell Swig this class is not virtual. */
-  int dim() const;
 
   /*
     Returns the index of an operator which swaps D with its tree
@@ -379,9 +363,6 @@ public:
   */
   DSymbolDFS(const GenericDSymbol& ds, const int_vec& seed);
 
-  /* Redeclare this to tell Swig this class is not virtual. */
-  int dim() const;
-
   /*
     Returns the index of an operator which swaps D with its tree
     predecessor.
@@ -401,9 +382,6 @@ public:
     the first element of the base symbol is used.
   */
   DSymbolEPS(const GenericDSymbol& ds, const int_vec& seed);
-
-  /* Redeclare this to tell Swig this class is not virtual. */
-  int dim() const;
 
   /*
     Returns the index of an operator which swaps D with its tree
@@ -427,9 +405,6 @@ public:
   */
   DSymbolIPS(const GenericDSymbol& ds, const int_vec& seed);
 
-  /* Redeclare this to tell Swig this class is not virtual. */
-  int dim() const;
-
   /*
     Returns the index of an operator which swaps D with its tree
     predecessor.
@@ -448,9 +423,6 @@ public:
     Construct the binary cover of a given symbol.
   */
   BinCoverDSymbol(const GenericDSymbol& ds);
-
-  /* Redeclare this to tell Swig this class is not virtual. */
-  int dim() const;
 };
 
 
