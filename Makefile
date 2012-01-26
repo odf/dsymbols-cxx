@@ -1,38 +1,27 @@
 # --------------------
 
-INCPATH   = -I. -I$(HOME)/include -I$(HOME)/include/c++
-LIBPATH   = -L. -L$(HOME)/lib
-FLAGS     = -g
-CXXFLAGS  = $(FLAGS) $(INCPATH)
-
-LIBS      = -lgmp -lm
-
+CXXFLAGS  = -O -g
+PYHEADERS = /usr/include/python2.7
 
 # --------------------
 
-.SUFFIXES:	.o .cc .i .py
+.SUFFIXES:	.o .cxx .i .py
 
-.o:
-	$(CXX) $(CXXFLAGS) -o $* $*.o $(LIBPATH) $(LIBS)
-
-.cc.o:
-	$(CXX) $(CXXFLAGS) -c $*.cc
-
-.cc:
-	$(CXX) $(CXXFLAGS) -o $* $*.cc $(LIBPATH) $(LIBS)
+.cxx.o:
+	$(CXX) $(CXXFLAGS) -c $*.cxx
 
 .i.py:
 	swig -python -c++ -shadow $*.i
-	$(CXX) $(CXXFLAGS) -I/usr/include/python2.7 $*_wrap.cxx \
-		-shared -o _$*.so
+	$(CXX) $(CXXFLAGS) -I$(PYHEADERS) $*_wrap.cxx -shared -o _$*.so
 	rm $*_wrap.cxx
 
 # --------------------
 
-main:	testds
+testds:	testds.o
+	$(CXX) $(CXXFLAGS) -o testds testds.o -lgmp -lm
 
 depend:
-	makedepend -Y. testds.cc
+	makedepend -Y. testds.cxx
 
 # --------------------
 # DO NOT DELETE
