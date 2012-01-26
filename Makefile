@@ -23,6 +23,9 @@ testds:	testds.o
 depend:
 	makedepend -Y. testds.cxx
 
+clean:
+	rm -f *.o *.so *.pyc dsymbol.py dsymbol_wrap.cxx
+
 # --------------------
 # DO NOT DELETE
 
