@@ -26,6 +26,9 @@ depend:
 clean:
 	rm -f *.o *.so *.pyc dsymbol.py dsymbol_wrap.cxx
 
+distclean: clean
+	rm -f testds
+
 # --------------------
 # DO NOT DELETE
 
