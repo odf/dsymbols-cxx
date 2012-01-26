@@ -12,19 +12,12 @@
 #include "Bag.h"
 
 
-template<class NUM = int, class BT = Queue<std::pair<NUM,std::vector<NUM> > > >
-class TraversedDelaneySymbol : public IndirectDelaneySymbol<NUM>
+template<class BT = Queue<std::pair<int,std::vector<int> > > >
+class TraversedDelaneySymbol : public IndirectDelaneySymbol
 {
 public:
-  typedef IndirectDelaneySymbol<NUM> indirect;
-
-  typedef typename indirect::base_type base_type;
-  typedef typename indirect::size_type size_type;
-  typedef typename indirect::idx_type idx_type;
-  typedef typename indirect::elm_type elm_type;
-
   typedef BT bag_type;
-  typedef TraversedDelaneySymbol<NUM,BT> sym_type;
+  typedef TraversedDelaneySymbol<BT> sym_type;
 
 private:
   std::map<elm_type, size_type> elm_to_pos;
@@ -40,8 +33,8 @@ private:
   
 public:
   explicit
-  TraversedDelaneySymbol(const base_type& ds)
-    : IndirectDelaneySymbol<NUM> (ds),
+  TraversedDelaneySymbol(const DelaneySymbol& ds)
+    : IndirectDelaneySymbol (ds),
       pos_to_elm(ds.size()+1, ds.elm_none()),
       pos_to_idx(ds.size()+1, ds.idx_none()),
       pos(0),
@@ -49,8 +42,8 @@ public:
   {
   }
 
-  TraversedDelaneySymbol(const base_type& ds, const elm_type& D)
-    : IndirectDelaneySymbol<NUM> (ds),
+  TraversedDelaneySymbol(const DelaneySymbol& ds, const elm_type& D)
+    : IndirectDelaneySymbol (ds),
       pos_to_elm(ds.size()+1, ds.elm_none()),
       pos_to_idx(ds.size()+1, ds.idx_none()),
       pos(0),
@@ -58,8 +51,8 @@ public:
   {
   }
 
-  TraversedDelaneySymbol(const base_type& ds, const bag_type& bag)
-    : IndirectDelaneySymbol<NUM> (ds),
+  TraversedDelaneySymbol(const DelaneySymbol& ds, const bag_type& bag)
+    : IndirectDelaneySymbol (ds),
       pos_to_elm(ds.size()+1, ds.elm_none()),
       pos_to_idx(ds.size()+1, ds.idx_none()),
       pos(0),
@@ -70,10 +63,10 @@ public:
       seen_edges.pop();
   }
 
-  TraversedDelaneySymbol(const base_type& ds,
+  TraversedDelaneySymbol(const DelaneySymbol& ds,
 			 const bag_type& bag,
 			 const elm_type& D    )
-    : IndirectDelaneySymbol<NUM> (ds),
+    : IndirectDelaneySymbol (ds),
       pos_to_elm(ds.size()+1, ds.elm_none()),
       pos_to_idx(ds.size()+1, ds.idx_none()),
       pos(0),
@@ -87,20 +80,20 @@ public:
   ~TraversedDelaneySymbol() {}
 
   virtual idx_type
-  idx_none () const { return indirect::theBase.idx_none(); }
+  idx_none () const { return theBase.idx_none(); }
 
   virtual idx_type
-  idx_first () const { return indirect::theBase.idx_first(); }
+  idx_first () const { return theBase.idx_first(); }
 
   virtual elm_type
-  elm_none () const { return indirect::theBase.elm_none(); }
+  elm_none () const { return theBase.elm_none(); }
 
   elm_type
   elm_first () const {
-    if (indirect::theBase.elm_valid(first_seed))
+    if (theBase.elm_valid(first_seed))
       return first_seed;
     else
-      return indirect::theBase.elm_first();
+      return theBase.elm_first();
   }
 
   elm_type
@@ -124,9 +117,9 @@ public:
 };
 
 
-template<class NUM, class BT>
-typename TraversedDelaneySymbol<NUM,BT>::size_type
-TraversedDelaneySymbol<NUM,BT>::advance_to
+template<class BT>
+typename TraversedDelaneySymbol<BT>::size_type
+TraversedDelaneySymbol<BT>::advance_to
 (const elm_type& elm, bool one_more)
 {
   bool last_step = false;
@@ -149,12 +142,12 @@ TraversedDelaneySymbol<NUM,BT>::advance_to
       if (pos == 0)
 	seed = elm_first();
       else
-	seed = indirect::theBase.elm_next(seed);
+	seed = theBase.elm_next(seed);
 
       while (elm_to_pos.count(seed) > 0)
-	seed = indirect::theBase.elm_next(seed);
+	seed = theBase.elm_next(seed);
 
-      if (indirect::theBase.elm_valid(seed))
+      if (theBase.elm_valid(seed))
 	seen_edges.push(make_pair(idx_none(), seed));
       else
 	return 0;
@@ -191,11 +184,11 @@ TraversedDelaneySymbol<NUM,BT>::advance_to
 }
 
 
-template<class NUM, class BT>
+template<class BT>
 void
-TraversedDelaneySymbol<NUM,BT>::print (std::ostream& out) const
+TraversedDelaneySymbol<BT>::print (std::ostream& out) const
 {
-  this->DelaneySymbol<NUM>::print(out);
+  this->DelaneySymbol::print(out);
 
   out << "  traversal:" << std::endl;
 

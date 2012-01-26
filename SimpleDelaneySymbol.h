@@ -31,7 +31,7 @@
  */
 
 
-class SimpleDelaneySymbol : public DynamicDelaneySymbol<int>
+class SimpleDelaneySymbol : public DynamicDelaneySymbol
 {
 
 private:
@@ -199,7 +199,7 @@ public:
   bool
   set_op(const idx_type& i, const elm_type& elm, const elm_type& img)
   {
-    return DynamicDelaneySymbol<int>::set_op(i, elm, img);
+    return DynamicDelaneySymbol::set_op(i, elm, img);
   }
 
   bool
@@ -211,7 +211,7 @@ public:
   bool
   unset_op(const idx_type& i, const elm_type& elm)
   {
-    return DynamicDelaneySymbol<int>::unset_op(i, elm);
+    return DynamicDelaneySymbol::unset_op(i, elm);
   }
 
   bool
@@ -223,7 +223,7 @@ public:
   bool
   set_v(const idx_type& i, const idx_type& j, const elm_type& elm, const int v)
   {
-    return DynamicDelaneySymbol<int>::set_v(i, j, elm, v);
+    return DynamicDelaneySymbol::set_v(i, j, elm, v);
   }
 
   bool
@@ -235,7 +235,7 @@ public:
   bool
   unset_v(const idx_type& i, const idx_type& j, const elm_type& elm)
   {
-    return DynamicDelaneySymbol<int>::unset_v(i, j, elm);
+    return DynamicDelaneySymbol::unset_v(i, j, elm);
   }
 
   bool
@@ -417,15 +417,14 @@ SimpleDelaneySymbol::remove_element_internal(const elm_type& elm)
 // ------------------------------------------------------------------------
 
 
-template<class NUM>
 SimpleDelaneySymbol
-simple_ds(const DelaneySymbol<NUM>& src)
+simple_ds(const DelaneySymbol& src)
 {
   if (!src.is_finite())
     return SimpleDelaneySymbol(0, 0);
 
-  typedef typename DelaneySymbol<NUM>::elm_type elm_type_src;
-  typedef typename DelaneySymbol<NUM>::idx_type idx_type_src;
+  typedef typename DelaneySymbol::elm_type elm_type_src;
+  typedef typename DelaneySymbol::idx_type idx_type_src;
 
   typedef typename SimpleDelaneySymbol::elm_type elm_type_dst;
   typedef typename SimpleDelaneySymbol::idx_type idx_type_dst;

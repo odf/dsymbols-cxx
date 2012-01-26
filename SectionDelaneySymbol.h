@@ -20,17 +20,9 @@
 */
 
 
-template<class NUM = int>
-class SectionDelaneySymbol : public IndirectDelaneySymbol<NUM>
+class SectionDelaneySymbol : public IndirectDelaneySymbol
 {
 public:
-  typedef IndirectDelaneySymbol<NUM> indirect;
-
-  typedef typename indirect::base_type base_type;
-  typedef typename indirect::size_type size_type;
-  typedef typename indirect::idx_type idx_type;
-  typedef typename indirect::elm_type elm_type;
-
   typedef typename std::set<idx_type>::const_iterator idx_iterator;
 
 private:
@@ -39,8 +31,9 @@ private:
 
 public:
   explicit
-  SectionDelaneySymbol(const base_type& ds, const std::set<idx_type>& indices)
-    : IndirectDelaneySymbol<NUM>(ds)
+  SectionDelaneySymbol(const DelaneySymbol& ds,
+		       const std::set<idx_type>& indices)
+    : IndirectDelaneySymbol(ds)
   {
     idx_iterator it;
     for (it = indices.begin(); it != indices.end(); it++)
@@ -52,13 +45,13 @@ public:
   ~SectionDelaneySymbol() {}
 
   virtual bool
-  is_finite () const { return indirect::theBase.is_finite(); }
+  is_finite () const { return theBase.is_finite(); }
 
   virtual idx_type
-  idx_none () const { return indirect::theBase.idx_none(); }
+  idx_none () const { return theBase.idx_none(); }
 
   virtual elm_type
-  elm_first () const { return indirect::theBase.elm_first(); }
+  elm_first () const { return theBase.elm_first(); }
 
   size_type dim () const { return theDim; }
 
@@ -87,13 +80,13 @@ public:
 
   bool
   op_defined (const idx_type& i, const elm_type& D) const {
-    return idx_valid(i) && indirect::theBase.op_defined(i, D);
+    return idx_valid(i) && theBase.op_defined(i, D);
   }
 
   elm_type
   op (const idx_type& i, const elm_type& D) const {
     if (op_defined(i, D))
-      return indirect::theBase.op(i, D);
+      return theBase.op(i, D);
     else
       return D;
   }
@@ -101,13 +94,13 @@ public:
   bool
   v_defined (const idx_type& i, const idx_type& j, const elm_type& D) const
   {
-    return idx_valid(i) && idx_valid(j) && indirect::theBase.v_defined(i, j, D);
+    return idx_valid(i) && idx_valid(j) && theBase.v_defined(i, j, D);
   }
 
   int
   v (const idx_type& i, const idx_type& j, const elm_type& D) const {
     if (v_defined(i, j, D))
-      return indirect::theBase.v(i, j, D);
+      return theBase.v(i, j, D);
     else
       return 0;
   }
@@ -116,7 +109,7 @@ public:
   v_implied (const idx_type& i, const idx_type& j) const
   {
     if (idx_valid(i) && idx_valid(j))
-      return indirect::theBase.v_implied(i, j);
+      return theBase.v_implied(i, j);
     else
       return false;
   }
@@ -128,9 +121,8 @@ public:
 // ------------------------------------------------------------------------
 
 
-template<class NUM>
 Answer
-SectionDelaneySymbol<NUM>::is_proper() const
+SectionDelaneySymbol::is_proper() const
 {
   if (!is_finite())
     return Maybe;
@@ -138,14 +130,14 @@ SectionDelaneySymbol<NUM>::is_proper() const
   idx_type i, j;
   elm_type D;
 
-  for (i = indirect::theBase.idx_first();
-       indirect::theBase.idx_valid(i);
-       i = indirect::theBase.idx_next(i))
+  for (i = theBase.idx_first();
+       theBase.idx_valid(i);
+       i = theBase.idx_next(i))
   {
     if (idx_valid(i)) {
-      for (j = indirect::theBase.idx_next(indirect::theBase.idx_next(i));
-	   indirect::theBase.idx_valid(j);
-	   j = indirect::theBase.idx_next(j))
+      for (j = theBase.idx_next(theBase.idx_next(i));
+	   theBase.idx_valid(j);
+	   j = theBase.idx_next(j))
       {
 	if (idx_valid(j)) {
 	  for (D = elm_first(); elm_valid(D); D = elm_next(D)) {

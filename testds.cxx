@@ -72,9 +72,8 @@ testanswer()
 }
 
 
-template<class NUM>
 void
-showsymbol(const DelaneySymbol<NUM>& ds)
+showsymbol(const DelaneySymbol& ds)
 {
   cout << ds << endl;
   cout << "  properties: ";
@@ -87,8 +86,8 @@ showsymbol(const DelaneySymbol<NUM>& ds)
   CHECK(ds, oriented);
   cout << endl ;
 
-  typename DelaneySymbol<NUM>::elm_type D = ds.elm_first();
-  typename DelaneySymbol<NUM>::idx_type i = ds.idx_first(), j = ds.idx_next(i);
+  typename DelaneySymbol::elm_type D = ds.elm_first();
+  typename DelaneySymbol::idx_type i = ds.idx_first(), j = ds.idx_next(i);
 
   cout << "  v(" << i << ", " << j << ", " << D << ") = "
        << ds.v(i,j,D) << endl;
@@ -152,11 +151,11 @@ main()
   cout << "after ds.set_v(0, 1, 1, 3):" << endl;
   showsymbol(ds);
 
-  DualDelaneySymbol<int> dual(ds);
+  DualDelaneySymbol dual(ds);
   cout << "dual:" << endl;
   showsymbol(dual);
 
-  DualDelaneySymbol<int> ddual(dual);
+  DualDelaneySymbol ddual(dual);
   cout << "dual of dual:" << endl;
   showsymbol(ddual);
 
@@ -164,11 +163,11 @@ main()
   cout << "converted back to simple symbol:" << endl;
   showsymbol(simp);
 
-  BinaryDelaneyCover<int> cov(ds);
+  BinaryDelaneyCover cov(ds);
   cout << "binary cover of ds:" << endl;
   showsymbol(cov);
 
-  BinaryDelaneyCover<int> ccov(cov);
+  BinaryDelaneyCover ccov(cov);
   cout << "second order cover:" << endl;
   showsymbol(ccov);
 
@@ -183,7 +182,7 @@ main()
   indices.insert(0);
   indices.insert(-1);
 
-  SectionDelaneySymbol<int> sec(cov, indices);
+  SectionDelaneySymbol sec(cov, indices);
   cout << "section of binary cover:" << endl;
   showsymbol(sec);
 
@@ -195,11 +194,11 @@ main()
   cout << "copy of ds:" << endl;
   showsymbol(copy);
 
-  DelaneySubsymbol<int> sub(ds, indices, ds.elm_first());
+  DelaneySubsymbol sub(ds, indices, ds.elm_first());
   cout << "subsymbol of ds:" << endl;
   showsymbol(sub);
 
-  DelaneySubsymbol<int> subcov(cov, indices, cov.elm_first());
+  DelaneySubsymbol subcov(cov, indices, cov.elm_first());
   cout << "subsymbol of cov:" << endl;
   showsymbol(subcov);
 
@@ -243,27 +242,26 @@ main()
   cout << "Simple symbol ds3:" << endl;
   showsymbol(ds3);
 
-  TraversedDelaneySymbol<int> trav(ds3);
+  TraversedDelaneySymbol<> trav(ds3);
   cout << "Breadth first traversal of ds3:" << endl;
   showsymbol(trav);
 
   vector<int> start;
   start.push_back(8);
 
-  TraversedDelaneySymbol<int, Stack<pair<int, vector<int> > > >
+  TraversedDelaneySymbol<Stack<pair<int, vector<int> > > >
     travd(ds3, start);
   cout << "Depth first traversal of ds3 starting at 8:" << endl;
   showsymbol(travd);
 
   typedef pair<int, vector<int> > edge;
 
-  TraversedDelaneySymbol
-    <int, PriorityQueue<edge, vector<edge>, greater<edge> > >
+  TraversedDelaneySymbol<PriorityQueue<edge, vector<edge>, greater<edge> > >
     travp(ds3);
   cout << "Priority traversal of ds3:" << endl;
   showsymbol(travp);
 
-  TraversedDelaneySymbol<int, IPBag<int> > travi(ds3);
+  TraversedDelaneySymbol<IPBag<int> > travi(ds3);
   cout << "Index priority traversal of ds3:" << endl;
   showsymbol(travi);
 
@@ -274,7 +272,7 @@ main()
   set<int> indi;
   indi.insert(0);
   indi.insert(1);
-  SectionDelaneySymbol<int> section(ds3, indi);
+  SectionDelaneySymbol section(ds3, indi);
   cout << "Section for index set (0,1) of ds3:" << endl;
   showsymbol(section);
 

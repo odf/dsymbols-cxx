@@ -25,16 +25,6 @@
   class must implement. These functions are pure virtual, thus the
   class 'DelaneySymbol' itself can not be instantiated.
 
-  To provide more flexibility, the base class is realized as a
-  template with the element and index types as parameters.  The only
-  requirements for these types are that they must support the
-  operators '==' and '<' for comparison and '<<' for printing. They
-  must also contain at least one value which will not be used in any
-  Delaney symbol. This value will be returned by functions and methods
-  like 'idx_next' to indicate that a requested item does not
-  exists. For an example of how and why other symbol elements than
-  integer numbers can be useful, see the file 'BinaryCoverDSymbol.h'.
-
   The interface consists of the following functions:
 
 %%%%% FIX ME! %%%%%
@@ -86,14 +76,13 @@
 */
 
 
-template<class NUM = int>
 class DelaneySymbol {
 
 public:
   // useful type names:
 
-  typedef std::vector<NUM> elm_type;
-  typedef NUM              idx_type;
+  typedef std::vector<int> elm_type;
+  typedef int              idx_type;
   typedef size_t           size_type;
 
   // an abstract class must have a destructor:
@@ -158,15 +147,13 @@ public:
 };
 
 
-template<class NUM>
-DelaneySymbol<NUM>::~DelaneySymbol()
+DelaneySymbol::~DelaneySymbol()
 {
 }
 
 
-template<class NUM>
 int
-DelaneySymbol<NUM>::r
+DelaneySymbol::r
 (const idx_type& i, const idx_type& j, const elm_type& elm) const
 {
   elm_type D = elm;
@@ -191,9 +178,8 @@ DelaneySymbol<NUM>::r
 // Delaney symbol. Assumably, there will be nicer ways to determine
 // the size for almost all 'real' symbols.
 
-template<class NUM>
-typename DelaneySymbol<NUM>::size_type
-DelaneySymbol<NUM>::size () const
+typename DelaneySymbol::size_type
+DelaneySymbol::size () const
 {
   size_type count = 0;
 
@@ -208,9 +194,8 @@ DelaneySymbol<NUM>::size () const
 // A Delaney symbol is called complete if op and v are defined for all
 // legal element-index combinations.
 
-template<class NUM>
 Answer
-DelaneySymbol<NUM>::is_complete() const
+DelaneySymbol::is_complete() const
 {
   if (!is_finite())
     return Maybe;
@@ -241,9 +226,8 @@ DelaneySymbol<NUM>::is_complete() const
 // of "non-consecutive" here may be inappropriate for things like
 // sections and subsymbols.
 
-template<class NUM>
 Answer
-DelaneySymbol<NUM>::is_proper() const
+DelaneySymbol::is_proper() const
 {
   if (!is_finite())
     return Maybe;
@@ -269,9 +253,8 @@ DelaneySymbol<NUM>::is_proper() const
 // A Delaney symbol is loopless if op(i, D) != D for all indices i
 // and elements D.
 
-template<class NUM>
 Answer
-DelaneySymbol<NUM>::is_loopless () const
+DelaneySymbol::is_loopless () const
 {
   if (!is_finite())
     return Maybe;
@@ -293,9 +276,8 @@ DelaneySymbol<NUM>::is_loopless () const
 // We call a Delaney symbol simple if all the branching numbers v
 // are defined and equal to 1.
 
-template<class NUM>
 Answer
-DelaneySymbol<NUM>::is_simple () const
+DelaneySymbol::is_simple () const
 {
   if (!is_finite())
     return Maybe;
@@ -319,9 +301,8 @@ DelaneySymbol<NUM>::is_simple () const
 // A Delaney symbol is connected if there is a path (i.e. a connection
 // by a sequence of 'op' relations) between each pair of elements.
 
-template<class NUM>
 Answer
-DelaneySymbol<NUM>::is_connected () const
+DelaneySymbol::is_connected () const
 {
   if (!is_finite())
     return Maybe;
@@ -357,9 +338,8 @@ DelaneySymbol<NUM>::is_connected () const
 // if the above holds for all non-loops, i.e. if 'op(i,D) != D'
 // always implies 'd(op(i,D)) == !D'.
 
-template<class NUM>
 Answer
-DelaneySymbol<NUM>::is_weakly_oriented () const
+DelaneySymbol::is_weakly_oriented () const
 {
   if (!is_finite())
     return Maybe;
@@ -402,9 +382,8 @@ DelaneySymbol<NUM>::is_weakly_oriented () const
 // Given the above, a symbol is oriented precisely if it is both
 // weakly oriented and loopless.
 
-template<class NUM>
 Answer
-DelaneySymbol<NUM>::is_oriented () const
+DelaneySymbol::is_oriented () const
 {
   if (!is_finite())
     return Maybe;
@@ -414,8 +393,7 @@ DelaneySymbol<NUM>::is_oriented () const
 
 // An output operator for vectors.
 
-template<class NUM>
-std::ostream& operator << (std::ostream& out, const std::vector<NUM> v)
+std::ostream& operator << (std::ostream& out, const std::vector<int> v)
 {
   if (v.size() == 1)
     out << v[0];
@@ -434,9 +412,8 @@ std::ostream& operator << (std::ostream& out, const std::vector<NUM> v)
 
 // Here's a generic implementation of the print function.
 
-template<class NUM>
 void
-DelaneySymbol<NUM>::print (std::ostream& out) const
+DelaneySymbol::print (std::ostream& out) const
 {
   if (!is_finite()) {
     out << "(An infinite Delaney symbol)";
@@ -497,9 +474,8 @@ DelaneySymbol<NUM>::print (std::ostream& out) const
 }
 
 
-template<class NUM>
 inline std::ostream&
-operator<< (std::ostream& out, const DelaneySymbol<NUM>& ds)
+operator<< (std::ostream& out, const DelaneySymbol& ds)
 {
   ds.print(out);
   return out;

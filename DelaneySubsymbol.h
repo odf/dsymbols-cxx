@@ -20,17 +20,8 @@
  */
 
 
-template<class NUM = int>
-class DelaneySubsymbol : public IndirectDelaneySymbol<NUM>
+class DelaneySubsymbol : public IndirectDelaneySymbol
 {
-public:
-  typedef IndirectDelaneySymbol<NUM> indirect;
-
-  typedef typename indirect::base_type base_type;
-  typedef typename indirect::size_type size_type;
-  typedef typename indirect::idx_type idx_type;
-  typedef typename indirect::elm_type elm_type;
-
   typedef typename std::set<idx_type>::const_iterator idx_iterator;
   typedef typename std::set<elm_type>::const_iterator elm_iterator;
 
@@ -44,18 +35,18 @@ private:
 public:
   explicit
   DelaneySubsymbol
-  (const base_type& ds, const std::set<idx_type>& indices, const elm_type& seed);
+  (const DelaneySymbol& ds, const std::set<idx_type>& indices, const elm_type& seed);
 
   ~DelaneySubsymbol() {}
 
   virtual bool
-  is_finite () const { return indirect::theBase.is_finite(); }
+  is_finite () const { return theBase.is_finite(); }
 
   virtual idx_type
-  idx_none () const { return indirect::theBase.idx_none(); }
+  idx_none () const { return theBase.idx_none(); }
 
   virtual elm_type
-  elm_none () const { return indirect::theBase.elm_none(); }
+  elm_none () const { return theBase.elm_none(); }
 
   size_type dim  () const { return theDim; }
   size_type size () const { return theSize; }
@@ -107,13 +98,13 @@ public:
   bool op_defined (const idx_type& idx, const elm_type& elm) const
   {
     return idx_valid(idx) && elm_valid(elm)
-      && indirect::theBase.op_defined(idx, elm);
+      && theBase.op_defined(idx, elm);
   }
 
   elm_type op (const idx_type& idx, const elm_type& elm) const
   {
     if (op_defined(idx, elm))
-      return indirect::theBase.op(idx, elm);
+      return theBase.op(idx, elm);
     else
       return elm;
   }
@@ -122,14 +113,14 @@ public:
   (const idx_type& i, const idx_type& j, const elm_type& elm) const
   {
     return idx_valid(i) && idx_valid(j) && elm_valid(elm)
-      && indirect::theBase.v_defined(i, j, elm);
+      && theBase.v_defined(i, j, elm);
   }
 
   int v
   (const idx_type& i, const idx_type& j, const elm_type& elm) const
   {
     if (v_defined(i, j, elm))
-      return indirect::theBase.v(i, j, elm);
+      return theBase.v(i, j, elm);
     else
       return 0;
   }
@@ -138,7 +129,7 @@ public:
   v_implied (const idx_type& i, const idx_type& j) const
   {
     if (idx_valid(i) && idx_valid(j))
-      return indirect::theBase.v_implied(i, j);
+      return theBase.v_implied(i, j);
     else
       return false;
   }
@@ -147,18 +138,18 @@ public:
 };
 
 
-template<class NUM>
-DelaneySubsymbol<NUM>::DelaneySubsymbol
-(const base_type& ds, const std::set<idx_type>& indices, const elm_type& seed)
-  : IndirectDelaneySymbol<NUM>(ds)
+DelaneySubsymbol::DelaneySubsymbol(const DelaneySymbol& ds,
+				   const std::set<idx_type>& indices,
+				   const elm_type& seed)
+  : IndirectDelaneySymbol(ds)
 {
   idx_iterator it;
   for (it = indices.begin(); it != indices.end(); it++)
-    if (indirect::theBase.idx_valid(*it))
+    if (theBase.idx_valid(*it))
       theIndices.insert(*it);
   theDim = theIndices.size() - 1;
 
-  std::vector<elm_type> elm_at_rank(indirect::theBase.size()+1);
+  std::vector<elm_type> elm_at_rank(theBase.size()+1);
   size_type head = 1, tail = 1;
 
   elm_at_rank[head++] = seed;
@@ -168,7 +159,7 @@ DelaneySubsymbol<NUM>::DelaneySubsymbol
     elm_type D = elm_at_rank[tail++];
 
     for (idx_type i = idx_first(); idx_valid(i); i = idx_next(i)) {
-      elm_type Di = indirect::theBase.op(i, D);
+      elm_type Di = theBase.op(i, D);
 
       if (theElements.count(Di) <= 0) {
 	elm_at_rank[head++] = Di;
@@ -180,9 +171,8 @@ DelaneySubsymbol<NUM>::DelaneySubsymbol
 }
 
 
-template<class NUM>
 Answer
-DelaneySubsymbol<NUM>::is_proper() const
+DelaneySubsymbol::is_proper() const
 {
   if (!is_finite())
     return Maybe;
@@ -190,14 +180,14 @@ DelaneySubsymbol<NUM>::is_proper() const
   idx_type i, j;
   elm_type D;
 
-  for (i = indirect::theBase.idx_first();
-       indirect::theBase.idx_valid(i);
-       i = indirect::theBase.idx_next(i))
+  for (i = theBase.idx_first();
+       theBase.idx_valid(i);
+       i = theBase.idx_next(i))
   {
     if (idx_valid(i)) {
-      for (j = indirect::theBase.idx_next(indirect::theBase.idx_next(i));
-	   indirect::theBase.idx_valid(j);
-	   j = indirect::theBase.idx_next(j))
+      for (j = theBase.idx_next(theBase.idx_next(i));
+	   theBase.idx_valid(j);
+	   j = theBase.idx_next(j))
       {
 	if (idx_valid(j)) {
 	  for (D = elm_first(); elm_valid(D); D = elm_next(D)) {

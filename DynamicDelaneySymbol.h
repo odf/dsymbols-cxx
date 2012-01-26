@@ -45,13 +45,8 @@
 */
 
 
-template<class NUM = int>
-class DynamicDelaneySymbol : public DelaneySymbol<NUM>
+class DynamicDelaneySymbol : public DelaneySymbol
 {
-public:
-  typedef typename DelaneySymbol<NUM>::idx_type idx_type;
-  typedef typename DelaneySymbol<NUM>::elm_type elm_type;
-
 protected:
   virtual bool
   unset_op_internal (const idx_type&, const elm_type&)
@@ -164,8 +159,7 @@ public:
 };
 
 
-template<class NUM>
-DynamicDelaneySymbol<NUM>::~DynamicDelaneySymbol()
+DynamicDelaneySymbol::~DynamicDelaneySymbol()
 {
 }
 

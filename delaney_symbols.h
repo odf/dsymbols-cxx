@@ -37,13 +37,12 @@
 // higher-dimensional symbols, the curvature of the first
 // two-dimensional subsymbol is computed.
 
-template<class NUM>
 Rational
-curvature(const DelaneySymbol<NUM>& ds)
+curvature(const DelaneySymbol& ds)
 {
-  typedef typename DelaneySymbol<NUM>::elm_type elm_type;
-  typedef typename DelaneySymbol<NUM>::idx_type idx_type;
-  typedef typename DelaneySymbol<NUM>::size_type size_type;
+  typedef typename DelaneySymbol::elm_type elm_type;
+  typedef typename DelaneySymbol::idx_type idx_type;
+  typedef typename DelaneySymbol::size_type size_type;
 
   elm_type D;
   idx_type i, j;
@@ -53,7 +52,7 @@ curvature(const DelaneySymbol<NUM>& ds)
   indices.insert(i = ds.idx_next(i));
   indices.insert(i = ds.idx_next(i));
 
-  DelaneySubsymbol<NUM> sub(ds, indices, ds.elm_first());
+  DelaneySubsymbol sub(ds, indices, ds.elm_first());
 
   if (!sub.is_finite())
     return Rational(0, 0);
@@ -102,12 +101,11 @@ curvature(const DelaneySymbol<NUM>& ds)
 // Here's a function that returns a vector of representatives for the
 // connected components of a Delaney symbol.
 
-template<class NUM>
-std::vector<typename DelaneySymbol<NUM>::elm_type>
-RepresentativesComponents(const TraversedDelaneySymbol<NUM>& ds)
+std::vector<typename DelaneySymbol::elm_type>
+RepresentativesComponents(const TraversedDelaneySymbol<>& ds)
 {
-  typename DelaneySymbol<NUM>::elm_type D;
-  std::vector<typename DelaneySymbol<NUM>::elm_type> reps;
+  typename DelaneySymbol::elm_type D;
+  std::vector<typename DelaneySymbol::elm_type> reps;
 
   for (D = ds.elm_first(); ds.elm_valid(D); D = ds.elm_next(D))
     if (!ds.idx_valid(ds.idx_back_edge(D)))
@@ -116,11 +114,10 @@ RepresentativesComponents(const TraversedDelaneySymbol<NUM>& ds)
   return reps;
 }
 
-template<class NUM>
-std::vector<typename DelaneySymbol<NUM>::elm_type>
-RepresentativesComponents(const DelaneySymbol<NUM>& ds)
+std::vector<typename DelaneySymbol::elm_type>
+RepresentativesComponents(const DelaneySymbol& ds)
 {
-  return RepresentativesComponents(TraversedDelaneySymbol<NUM>(ds));
+  return RepresentativesComponents(TraversedDelaneySymbol<>(ds));
 }
 
 

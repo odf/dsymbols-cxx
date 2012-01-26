@@ -22,17 +22,8 @@
  */
 
 
-template<class NUM = int>
-class DualDelaneySymbol : public IndirectDelaneySymbol<NUM>
+class DualDelaneySymbol : public IndirectDelaneySymbol
 {
-public:
-  typedef IndirectDelaneySymbol<NUM> indirect;
-
-  typedef typename indirect::base_type base_type;
-  typedef typename indirect::size_type size_type;
-  typedef typename indirect::idx_type idx_type;
-  typedef typename indirect::elm_type elm_type;
-
 private:
   std::map<idx_type, idx_type> rev;
 
@@ -41,7 +32,7 @@ private:
   idx_type
   reverse_idx (const idx_type& idx) const
   {
-    if (indirect::theBase.idx_valid(idx))
+    if (theBase.idx_valid(idx))
       return (*rev.find(idx)).second;
     else
       return idx;
@@ -50,14 +41,14 @@ private:
 public:
   explicit
   DualDelaneySymbol(const DualDelaneySymbol& ds)
-    : IndirectDelaneySymbol<NUM> ((const DelaneySymbol<NUM>&) ds)
+    : IndirectDelaneySymbol ((const DelaneySymbol&) ds)
   {
     map_indices();
   }
 
   explicit
-  DualDelaneySymbol(const base_type& ds)
-    : IndirectDelaneySymbol<NUM> (ds)
+  DualDelaneySymbol(const DelaneySymbol& ds)
+    : IndirectDelaneySymbol (ds)
   {
     map_indices();
   }
@@ -66,37 +57,36 @@ public:
 
   bool op_defined (const idx_type& idx, const elm_type& elm) const
   {
-    return indirect::theBase.op_defined(reverse_idx(idx), elm);
+    return theBase.op_defined(reverse_idx(idx), elm);
   }
 
   elm_type op (const idx_type& idx, const elm_type& elm) const
   {
-    return indirect::theBase.op(reverse_idx(idx), elm);
+    return theBase.op(reverse_idx(idx), elm);
   }
 
   bool v_defined
   (const idx_type& i, const idx_type& j, const elm_type& elm) const
   {
-    return indirect::theBase.v_defined(reverse_idx(i), reverse_idx(j), elm);
+    return theBase.v_defined(reverse_idx(i), reverse_idx(j), elm);
   }
 
   int v
   (const idx_type& i, const idx_type& j, const elm_type& elm) const
   {
-    return indirect::theBase.v(reverse_idx(i), reverse_idx(j), elm);
+    return theBase.v(reverse_idx(i), reverse_idx(j), elm);
   }
 };
 
 
-template<class NUM>
 void
-DualDelaneySymbol<NUM>::map_indices()
+DualDelaneySymbol::map_indices()
 {
   std::vector<idx_type> tab;
 
-  for (idx_type idx = indirect::theBase.idx_first();
-       indirect::theBase.idx_valid(idx);
-       idx = indirect::theBase.idx_next(idx))
+  for (idx_type idx = theBase.idx_first();
+       theBase.idx_valid(idx);
+       idx = theBase.idx_next(idx))
   {
     tab.push_back(idx);
   }

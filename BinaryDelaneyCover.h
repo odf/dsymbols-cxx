@@ -11,20 +11,11 @@
 #include "DelaneyCover.h"
 
 
-template<class NUM = int>
-class BinaryDelaneyCover : public DelaneyCover<NUM>
+class BinaryDelaneyCover : public DelaneyCover
 {
-public:
-  typedef DelaneyCover<NUM> cover;
-  typedef typename cover::base_type base_type;
-  typedef typename cover::layer_type layer_type;
-  typedef typename cover::size_type size_type;
-  typedef typename cover::idx_type idx_type;
-  typedef typename cover::elm_type elm_type;
-
 private:
   layer_type
-  wrap(NUM n) const
+  wrap(int n) const
   {
     layer_type tmp(1);
     tmp[0] = n;
@@ -33,8 +24,7 @@ private:
 
 public:
 
-  explicit BinaryDelaneyCover(const base_type& ds)
-    : DelaneyCover<NUM>(ds)
+  explicit BinaryDelaneyCover(const DelaneySymbol& ds) : DelaneyCover(ds)
   {
   }
 
@@ -52,7 +42,7 @@ public:
 
   size_type
   len_base () const {
-    return cover::theBase.elm_first().size();
+    return DelaneyCover::theBase.elm_first().size();
   }
 
   bool

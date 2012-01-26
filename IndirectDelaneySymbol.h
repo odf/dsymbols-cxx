@@ -29,24 +29,18 @@
  */
 
 
-template<class NUM = int>
-class IndirectDelaneySymbol : public DelaneySymbol<NUM>
+class IndirectDelaneySymbol : public DelaneySymbol
 {
 protected:
-  typedef DelaneySymbol<NUM> base_type;
-  typedef typename base_type::size_type size_type;
-  typedef typename base_type::idx_type idx_type;
-  typedef typename base_type::elm_type elm_type;
-
-  const base_type& theBase;
+  const DelaneySymbol& theBase;
 
 public:
-  explicit IndirectDelaneySymbol(const IndirectDelaneySymbol<NUM>& ds)
+  explicit IndirectDelaneySymbol(const IndirectDelaneySymbol& ds)
     : theBase(ds)
   {
   }
 
-  explicit IndirectDelaneySymbol(const base_type& ds)
+  explicit IndirectDelaneySymbol(const DelaneySymbol& ds)
     : theBase(ds)
   {
   }
@@ -112,8 +106,7 @@ public:
 };
 
 
-template<class NUM>
-IndirectDelaneySymbol<NUM>::~IndirectDelaneySymbol()
+IndirectDelaneySymbol::~IndirectDelaneySymbol()
 {
 }
 
