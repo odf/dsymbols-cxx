@@ -1,0 +1,428 @@
+Testing class Answer:
+  Yes is true.
+  Yes isn't false.
+  No isn't true.
+  No is false.
+  Maybe isn't true.
+  Maybe isn't false.
+
+Yes & Yes = Yes
+Yes & No = No
+Yes & Maybe = Maybe
+No & Yes = No
+No & No = No
+No & Maybe = No
+Maybe & Yes = Maybe
+Maybe & No = No
+Maybe & Maybe = Maybe
+
+Yes | Yes = Yes
+Yes | No = Yes
+Yes | Maybe = Yes
+No | Yes = Yes
+No | No = No
+No | Maybe = Maybe
+Maybe | Yes = Yes
+Maybe | No = Maybe
+Maybe | Maybe = Maybe
+
+Yes == Yes = 1
+Yes == No = 0
+Yes == Maybe = 0
+No == Yes = 0
+No == No = 1
+No == Maybe = 0
+Maybe == Yes = 0
+Maybe == No = 0
+Maybe == Maybe = 1
+
+Testing class SimpleDelaneySymbol:
+  ds:
+  s(0) = (1,2)(3,4)(5,6)(7,8)
+  s(1) = (1,8)(2,3)(4,5)(6,7)
+  s(2) = (1,5)(2,6)(3,8)(4,7)
+  v(0,1) =  1->1
+  v(1,2) =  1->1
+
+  properties:  complete proper loopless simple connected
+  v(0, 1, 1) = 1
+  r(0, 1, 1) = 4
+  m(0, 1, 1) = 4
+  curvature = 0
+
+after ds.unset_op(2, 1) an ds.unset_op(2, 2):
+  s(0) = (1,2)(3,4)(5,6)(7,8)
+  s(1) = (1,8)(2,3)(4,5)(6,7)
+  s(2) = (3,8)(4,7)
+  v(0,1) =  1->1
+  v(1,2) =  1->1  4->1
+
+  properties:  proper simple connected weakly_oriented
+  v(0, 1, 1) = 1
+  r(0, 1, 1) = 4
+  m(0, 1, 1) = 4
+  curvature = 0
+
+after ds.unset_v(0, 1, 1):
+  s(0) = (1,2)(3,4)(5,6)(7,8)
+  s(1) = (1,8)(2,3)(4,5)(6,7)
+  s(2) = (3,8)(4,7)
+  v(0,1) =
+  v(1,2) =  1->1  4->1
+
+  properties:  proper connected weakly_oriented
+  v(0, 1, 1) = 0
+  r(0, 1, 1) = 4
+  m(0, 1, 1) = 0
+  curvature = 0
+
+after ds.set_op(2, 1, 2) and ds.set_op(2, 5, 5):
+  s(0) = (1,2)(3,4)(5,6)(7,8)
+  s(1) = (1,8)(2,3)(4,5)(6,7)
+  s(2) = (1,2)(3,8)(4,7)(5)
+  v(0,1) =
+  v(1,2) =  1->1  4->1
+
+  properties:  proper connected weakly_oriented
+  v(0, 1, 1) = 0
+  r(0, 1, 1) = 4
+  m(0, 1, 1) = 0
+  curvature = 1
+
+after ds.set_op(2, 6, 6):
+  s(0) = (1,2)(3,4)(5,6)(7,8)
+  s(1) = (1,8)(2,3)(4,5)(6,7)
+  s(2) = (1,2)(3,8)(4,7)(5)(6)
+  v(0,1) =
+  v(1,2) =  1->1  4->1
+
+  properties:  proper connected weakly_oriented
+  v(0, 1, 1) = 0
+  r(0, 1, 1) = 4
+  m(0, 1, 1) = 0
+  curvature = 1
+
+after ds.set_v(0, 1, 1, 3):
+  s(0) = (1,2)(3,4)(5,6)(7,8)
+  s(1) = (1,8)(2,3)(4,5)(6,7)
+  s(2) = (1,2)(3,8)(4,7)(5)(6)
+  v(0,1) =  1->3
+  v(1,2) =  1->1  4->1
+
+  properties:  complete proper connected weakly_oriented
+  v(0, 1, 1) = 3
+  r(0, 1, 1) = 4
+  m(0, 1, 1) = 12
+  curvature = -1/3
+
+dual:
+  s(0) = (1,2)(3,8)(4,7)(5)(6)
+  s(1) = (1,8)(2,3)(4,5)(6,7)
+  s(2) = (1,2)(3,4)(5,6)(7,8)
+  v(0,1) =  1->1  4->1
+  v(1,2) =  1->3
+
+  properties:  complete proper connected weakly_oriented
+  v(0, 1, 1) = 1
+  r(0, 1, 1) = 2
+  m(0, 1, 1) = 2
+  curvature = -1/3
+
+dual of dual:
+  s(0) = (1,2)(3,4)(5,6)(7,8)
+  s(1) = (1,8)(2,3)(4,5)(6,7)
+  s(2) = (1,2)(3,8)(4,7)(5)(6)
+  v(0,1) =  1->3
+  v(1,2) =  1->1  4->1
+
+  properties:  complete proper connected weakly_oriented
+  v(0, 1, 1) = 3
+  r(0, 1, 1) = 4
+  m(0, 1, 1) = 12
+  curvature = -1/3
+
+converted back to simple symbol:
+  s(0) = (1,2)(3,4)(5,6)(7,8)
+  s(1) = (1,8)(2,3)(4,5)(6,7)
+  s(2) = (1,2)(3,8)(4,7)(5)(6)
+  v(0,1) =  1->3
+  v(1,2) =  1->1  4->1
+
+  properties:  complete proper connected weakly_oriented
+  v(0, 1, 1) = 3
+  r(0, 1, 1) = 4
+  m(0, 1, 1) = 12
+  curvature = -1/3
+
+binary cover of ds:
+  s(0) = ([1,0],[2,1])([2,0],[1,1])([3,0],[4,1])([4,0],[3,1])([5,0],[6,1])([6,0],[5,1])([7,0],[8,1])([8,0],[7,1])
+  s(1) = ([1,0],[8,1])([2,0],[3,1])([3,0],[2,1])([4,0],[5,1])([5,0],[4,1])([6,0],[7,1])([7,0],[6,1])([8,0],[1,1])
+  s(2) = ([1,0],[2,1])([2,0],[1,1])([3,0],[8,1])([4,0],[7,1])([5,0],[5,1])([6,0],[6,1])([7,0],[4,1])([8,0],[3,1])
+  v(0,1) =  [1,0]->3  [2,0]->3
+  v(1,2) =  [1,0]->1  [2,0]->1  [4,0]->1
+
+  properties:  complete proper loopless connected weakly_oriented oriented
+  v(0, 1, [1,0]) = 3
+  r(0, 1, [1,0]) = 4
+  m(0, 1, [1,0]) = 12
+  curvature = -2/3
+
+second order cover:
+  s(0) = ([1,0,0],[2,1,1])([2,0,0],[1,1,1])([3,0,0],[4,1,1])([4,0,0],[3,1,1])([5,0,0],[6,1,1])([6,0,0],[5,1,1])([7,0,0],[8,1,1])([8,0,0],[7,1,1])([1,1,0],[2,0,1])([2,1,0],[1,0,1])([3,1,0],[4,0,1])([4,1,0],[3,0,1])([5,1,0],[6,0,1])([6,1,0],[5,0,1])([7,1,0],[8,0,1])([8,1,0],[7,0,1])
+  s(1) = ([1,0,0],[8,1,1])([2,0,0],[3,1,1])([3,0,0],[2,1,1])([4,0,0],[5,1,1])([5,0,0],[4,1,1])([6,0,0],[7,1,1])([7,0,0],[6,1,1])([8,0,0],[1,1,1])([1,1,0],[8,0,1])([2,1,0],[3,0,1])([3,1,0],[2,0,1])([4,1,0],[5,0,1])([5,1,0],[4,0,1])([6,1,0],[7,0,1])([7,1,0],[6,0,1])([8,1,0],[1,0,1])
+  s(2) = ([1,0,0],[2,1,1])([2,0,0],[1,1,1])([3,0,0],[8,1,1])([4,0,0],[7,1,1])([5,0,0],[5,1,1])([6,0,0],[6,1,1])([7,0,0],[4,1,1])([8,0,0],[3,1,1])([1,1,0],[2,0,1])([2,1,0],[1,0,1])([3,1,0],[8,0,1])([4,1,0],[7,0,1])([5,1,0],[5,0,1])([6,1,0],[6,0,1])([7,1,0],[4,0,1])([8,1,0],[3,0,1])
+  v(0,1) =  [1,0,0]->3  [2,0,0]->3  [1,1,0]->3  [2,1,0]->3
+  v(1,2) =  [1,0,0]->1  [2,0,0]->1  [4,0,0]->1  [1,1,0]->1  [2,1,0]->1  [4,1,0]->1
+
+  properties:  complete proper loopless weakly_oriented oriented
+  v(0, 1, [1,0,0]) = 3
+  r(0, 1, [1,0,0]) = 4
+  m(0, 1, [1,0,0]) = 12
+  curvature = -2/3
+
+converted to simple symbol:
+  s(0) = (1,26)(2,25)(3,28)(4,27)(5,30)(6,29)(7,32)(8,31)(9,18)(10,17)(11,20)(12,19)(13,22)(14,21)(15,24)(16,23)
+  s(1) = (1,32)(2,27)(3,26)(4,29)(5,28)(6,31)(7,30)(8,25)(9,24)(10,19)(11,18)(12,21)(13,20)(14,23)(15,22)(16,17)
+  s(2) = (1,26)(2,25)(3,32)(4,31)(5,29)(6,30)(7,28)(8,27)(9,18)(10,17)(11,24)(12,23)(13,21)(14,22)(15,20)(16,19)
+  v(0,1) =  1->3  2->3  9->3  10->3
+  v(1,2) =  1->1  2->1  4->1  9->1  10->1  12->1
+
+  properties:  complete proper loopless weakly_oriented oriented
+  v(0, 1, 1) = 3
+  r(0, 1, 1) = 4
+  m(0, 1, 1) = 12
+  curvature = -2/3
+
+section of binary cover:
+  s(0) = ([1,0],[2,1])([2,0],[1,1])([3,0],[4,1])([4,0],[3,1])([5,0],[6,1])([6,0],[5,1])([7,0],[8,1])([8,0],[7,1])
+  s(2) = ([1,0],[2,1])([2,0],[1,1])([3,0],[8,1])([4,0],[7,1])([5,0],[5,1])([6,0],[6,1])([7,0],[4,1])([8,0],[3,1])
+
+  properties:  complete proper loopless weakly_oriented oriented
+  v(0, 2, [1,0]) = 2
+  r(0, 2, [1,0]) = 1
+  m(0, 2, [1,0]) = 2
+  curvature = -1
+
+converted to simple symbol:
+  s(0) = (1,10)(2,9)(3,12)(4,11)(5,14)(6,13)(7,16)(8,15)
+  s(1) = (1,10)(2,9)(3,16)(4,15)(5,13)(6,14)(7,12)(8,11)
+  v(0,1) =  1->2  2->2  3->1  4->1  5->1
+
+  properties:  complete proper loopless weakly_oriented oriented
+  v(0, 1, 1) = 2
+  r(0, 1, 1) = 1
+  m(0, 1, 1) = 2
+  curvature = -1
+
+copy of ds:
+  s(0) = (1,2)(3,4)(5,6)(7,8)
+  s(1) = (1,8)(2,3)(4,5)(6,7)
+  s(2) = (1,2)(3,8)(4,7)(5)(6)
+  v(0,1) =  1->3
+  v(1,2) =  1->1  4->1
+
+  properties:  complete proper connected weakly_oriented
+  v(0, 1, 1) = 3
+  r(0, 1, 1) = 4
+  m(0, 1, 1) = 12
+  curvature = -1/3
+
+subsymbol of ds:
+  s(0) = (1,2)
+  s(2) = (1,2)
+
+  properties:  complete proper loopless connected weakly_oriented oriented
+  v(0, 2, 1) = 2
+  r(0, 2, 1) = 1
+  m(0, 2, 1) = 2
+  curvature = -1
+
+subsymbol of cov:
+  s(0) = ([1,0],[2,1])
+  s(2) = ([1,0],[2,1])
+
+  properties:  complete proper loopless connected weakly_oriented oriented
+  v(0, 2, [1,0]) = 2
+  r(0, 2, [1,0]) = 1
+  m(0, 2, [1,0]) = 2
+  curvature = -1
+
+subsymbol after ds.unset_op(2, 2) and ds.unset_op(2, 5):
+  s(0) = (1,2)
+  s(2) = 
+
+  properties:  proper simple connected weakly_oriented
+  v(0, 2, 1) = 1
+  r(0, 2, 1) = 2
+  m(0, 2, 1) = 2
+  curvature = -1
+
+subcov after ds.unset_op(2, 2) and ds.unset_op(2, 5):
+  s(0) = ([1,0],[2,1])
+  s(2) = 
+
+  properties:  proper simple connected weakly_oriented
+  v(0, 2, [1,0]) = 1
+  r(0, 2, [1,0]) = 2
+  m(0, 2, [1,0]) = 2
+  curvature = -1
+
+copy should stay the same:
+  s(0) = (1,2)(3,4)(5,6)(7,8)
+  s(1) = (1,8)(2,3)(4,5)(6,7)
+  s(2) = (1,2)(3,8)(4,7)(5)(6)
+  v(0,1) =  1->3
+  v(1,2) =  1->1  4->1
+
+  properties:  complete proper connected weakly_oriented
+  v(0, 1, 1) = 3
+  r(0, 1, 1) = 4
+  m(0, 1, 1) = 12
+  curvature = -1/3
+
+Simple symbol ds3:
+  s(0) = (1,2)(3,4)(5,6)(7,8)(9,10)
+  s(1) = (1,7)(2,8)(3,5)(4,6)(9,10)
+  s(2) = (1,9)(2,10)(3,4)(7)(8)
+  s(3) = (1,3)(2,4)(5,7)(6,8)(9,10)
+  v(0,1) =
+  v(1,2) =
+  v(2,3) =
+
+  properties:  proper connected weakly_oriented
+  v(0, 1, 1) = 0
+  r(0, 1, 1) = 2
+  m(0, 1, 1) = 0
+  curvature = 2
+
+Breadth first traversal of ds3:
+  s(0) = (1,2)(7,8)(9,10)(3,4)(5,6)
+  s(1) = (1,7)(2,8)(9,10)(3,5)(4,6)
+  s(2) = (1,9)(2,10)(7)(3,4)(8)
+  s(3) = (1,3)(2,4)(7,5)(9,10)(8,6)
+  v(0,1) =
+  v(1,2) =
+  v(2,3) =
+  traversal:
+    (1)
+    (2<-0->1)
+    (7<-1->1)
+    (9<-2->1)
+    (3<-3->1)
+    (8<-1->2)
+    (10<-2->2)
+    (4<-3->2)
+    (5<-3->7)
+    (6<-3->8)
+
+  properties:  proper connected weakly_oriented
+  v(0, 1, 1) = 0
+  r(0, 1, 1) = 2
+  m(0, 1, 1) = 0
+  curvature = 2
+
+Depth first traversal of ds3 starting at 8:
+  s(0) = (8,7)(6,5)(4,3)(2,1)(10,9)
+  s(1) = (8,2)(6,4)(10,9)(1,7)(3,5)
+  s(2) = (8)(4,3)(2,10)(9,1)(7)
+  s(3) = (8,6)(4,2)(10,9)(1,3)(5,7)
+  v(0,1) =
+  v(1,2) =
+  v(2,3) =
+  traversal:
+    (8)
+    (6<-3->8)
+    (4<-1->6)
+    (2<-3->4)
+    (10<-2->2)
+    (9<-3->10)
+    (1<-2->9)
+    (3<-3->1)
+    (5<-1->3)
+    (7<-3->5)
+
+  properties:  proper connected weakly_oriented
+  v(0, 1, 8) = 0
+  r(0, 1, 8) = 2
+  m(0, 1, 8) = 0
+  curvature = 2
+
+Priority traversal of ds3:
+  s(0) = (1,2)(7,8)(9,10)(3,4)(5,6)
+  s(1) = (1,7)(2,8)(9,10)(3,5)(4,6)
+  s(2) = (1,9)(2,10)(7)(8)(3,4)
+  s(3) = (1,3)(2,4)(7,5)(8,6)(9,10)
+  v(0,1) =
+  v(1,2) =
+  v(2,3) =
+  traversal:
+    (1)
+    (2<-0->1)
+    (7<-1->1)
+    (8<-0->7)
+    (9<-2->1)
+    (10<-0->9)
+    (3<-3->1)
+    (4<-0->3)
+    (5<-1->3)
+    (6<-0->5)
+
+  properties:  proper connected weakly_oriented
+  v(0, 1, 1) = 0
+  r(0, 1, 1) = 2
+  m(0, 1, 1) = 0
+  curvature = 2
+
+Index priority traversal of ds3:
+  s(0) = (1,2)(8,7)(9,10)(3,4)(6,5)
+  s(1) = (1,7)(2,8)(9,10)(3,5)(4,6)
+  s(2) = (1,9)(2,10)(8)(7)(3,4)
+  s(3) = (1,3)(2,4)(8,6)(7,5)(9,10)
+  v(0,1) =
+  v(1,2) =
+  v(2,3) =
+  traversal:
+    (1)
+    (2<-0->1)
+    (8<-1->2)
+    (7<-0->8)
+    (9<-2->1)
+    (10<-0->9)
+    (3<-3->1)
+    (4<-0->3)
+    (6<-1->4)
+    (5<-0->6)
+
+  properties:  proper connected weakly_oriented
+  v(0, 1, 1) = 0
+  r(0, 1, 1) = 2
+  m(0, 1, 1) = 0
+  curvature = 2
+
+Converted to simple:
+  s(0) = (1,2)(3,4)(5,6)(7,8)(9,10)
+  s(1) = (1,4)(2,3)(5,6)(7,10)(8,9)
+  s(2) = (1,5)(2,6)(3)(4)(7,8)
+  s(3) = (1,7)(2,8)(3,9)(4,10)(5,6)
+  v(0,1) =
+  v(1,2) =
+  v(2,3) =
+
+  properties:  proper connected weakly_oriented
+  v(0, 1, 1) = 0
+  r(0, 1, 1) = 2
+  m(0, 1, 1) = 0
+  curvature = 2
+
+Section for index set (0,1) of ds3:
+  s(0) = (1,2)(3,4)(5,6)(7,8)(9,10)
+  s(1) = (1,7)(2,8)(3,5)(4,6)(9,10)
+  v(0,1) =
+
+  properties:  proper loopless weakly_oriented oriented
+  v(0, 1, 1) = 0
+  r(0, 1, 1) = 2
+  m(0, 1, 1) = 0
+  curvature = -2
+
+Representatives of (0,1) orbits:  1 3 9
