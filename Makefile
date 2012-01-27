@@ -5,10 +5,7 @@ PYHEADERS = /usr/include/python2.7
 
 # --------------------
 
-.SUFFIXES:	.o .cxx .i .py
-
-.cxx.o:
-	$(CXX) $(CXXFLAGS) -c $*.cxx
+.SUFFIXES:	.i .py
 
 .i.py:
 	swig -python -c++ -shadow $*.i
@@ -19,6 +16,9 @@ PYHEADERS = /usr/include/python2.7
 
 testds:	testds.o
 	$(CXX) $(CXXFLAGS) -o testds testds.o -lgmp -lm
+
+test:	testds
+	./testds | diff - test.out && echo "OK!"
 
 depend:
 	makedepend -Y. testds.cxx
