@@ -423,11 +423,11 @@ simple_ds(const DelaneySymbol& src)
   if (!src.is_finite())
     return SimpleDelaneySymbol(0, 0);
 
-  typedef typename DelaneySymbol::elm_type elm_type_src;
-  typedef typename DelaneySymbol::idx_type idx_type_src;
+  typedef DelaneySymbol::elm_type elm_type_src;
+  typedef DelaneySymbol::idx_type idx_type_src;
 
-  typedef typename SimpleDelaneySymbol::elm_type elm_type_dst;
-  typedef typename SimpleDelaneySymbol::idx_type idx_type_dst;
+  typedef SimpleDelaneySymbol::elm_type elm_type_dst;
+  typedef SimpleDelaneySymbol::idx_type idx_type_dst;
 
   SimpleDelaneySymbol tmp(src.dim(), src.size());
 

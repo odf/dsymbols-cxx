@@ -23,7 +23,7 @@
 class SectionDelaneySymbol : public IndirectDelaneySymbol
 {
 public:
-  typedef typename std::set<idx_type>::const_iterator idx_iterator;
+  typedef std::set<idx_type>::const_iterator idx_iterator;
 
 private:
   std::set<idx_type> theIndices;

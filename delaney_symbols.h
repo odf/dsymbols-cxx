@@ -40,9 +40,9 @@
 Rational
 curvature(const DelaneySymbol& ds)
 {
-  typedef typename DelaneySymbol::elm_type elm_type;
-  typedef typename DelaneySymbol::idx_type idx_type;
-  typedef typename DelaneySymbol::size_type size_type;
+  typedef DelaneySymbol::elm_type elm_type;
+  typedef DelaneySymbol::idx_type idx_type;
+  typedef DelaneySymbol::size_type size_type;
 
   elm_type D;
   idx_type i, j;
@@ -101,11 +101,11 @@ curvature(const DelaneySymbol& ds)
 // Here's a function that returns a vector of representatives for the
 // connected components of a Delaney symbol.
 
-std::vector<typename DelaneySymbol::elm_type>
+std::vector<DelaneySymbol::elm_type>
 RepresentativesComponents(const TraversedDelaneySymbol<>& ds)
 {
-  typename DelaneySymbol::elm_type D;
-  std::vector<typename DelaneySymbol::elm_type> reps;
+  DelaneySymbol::elm_type D;
+  std::vector<DelaneySymbol::elm_type> reps;
 
   for (D = ds.elm_first(); ds.elm_valid(D); D = ds.elm_next(D))
     if (!ds.idx_valid(ds.idx_back_edge(D)))
@@ -114,7 +114,7 @@ RepresentativesComponents(const TraversedDelaneySymbol<>& ds)
   return reps;
 }
 
-std::vector<typename DelaneySymbol::elm_type>
+std::vector<DelaneySymbol::elm_type>
 RepresentativesComponents(const DelaneySymbol& ds)
 {
   return RepresentativesComponents(TraversedDelaneySymbol<>(ds));

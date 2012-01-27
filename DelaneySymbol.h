@@ -178,7 +178,7 @@ DelaneySymbol::r
 // Delaney symbol. Assumably, there will be nicer ways to determine
 // the size for almost all 'real' symbols.
 
-typename DelaneySymbol::size_type
+DelaneySymbol::size_type
 DelaneySymbol::size () const
 {
   size_type count = 0;

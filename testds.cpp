@@ -86,8 +86,8 @@ showsymbol(const DelaneySymbol& ds)
   CHECK(ds, oriented);
   cout << endl ;
 
-  typename DelaneySymbol::elm_type D = ds.elm_first();
-  typename DelaneySymbol::idx_type i = ds.idx_first(), j = ds.idx_next(i);
+  DelaneySymbol::elm_type D = ds.elm_first();
+  DelaneySymbol::idx_type i = ds.idx_first(), j = ds.idx_next(i);
 
   cout << "  v(" << i << ", " << j << ", " << D << ") = "
        << ds.v(i,j,D) << endl;

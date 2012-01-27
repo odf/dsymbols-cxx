@@ -22,8 +22,8 @@
 
 class DelaneySubsymbol : public IndirectDelaneySymbol
 {
-  typedef typename std::set<idx_type>::const_iterator idx_iterator;
-  typedef typename std::set<elm_type>::const_iterator elm_iterator;
+  typedef std::set<idx_type>::const_iterator idx_iterator;
+  typedef std::set<elm_type>::const_iterator elm_iterator;
 
 private:
   std::set<idx_type> theIndices;
