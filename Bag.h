@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------	*
  *	Bag.h				24-sep-1998  by ODF		*
- *                               Revised 2012/01/26  by ODF             *
+ *                               Revised 2012/01/27  by ODF             *
  * --------------------------------------------------------------------	*/
 
 
@@ -12,7 +12,7 @@
 #include <algorithm>
 
 
-template <class T, class Sequence = std::deque<T> >
+template <typename T, typename Sequence = std::deque<T> >
 class Stack {
   Sequence c;
 public:
@@ -31,7 +31,7 @@ public:
 };
 
 
-template <class T, class Sequence = std::deque<T> >
+template <typename T, typename Sequence = std::deque<T> >
 class Queue {
   Sequence c;
 public:
@@ -50,8 +50,8 @@ public:
 };
 
 
-template <class T, class Sequence = std::vector<T>, 
-          class Compare = std::less<typename Sequence::value_type> >
+template <typename T, typename Sequence = std::vector<T>, 
+          typename Compare = std::less<typename Sequence::value_type> >
 class  PriorityQueue {
   Sequence c;
   Compare comp;

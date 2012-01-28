@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------	*
  *	IPBag.h				11-apr-1999  by ODF		*
- *                               Revised 2012/01/26  by ODF             *
+ *                               Revised 2012/01/27  by ODF             *
  * --------------------------------------------------------------------	*/
 
 
@@ -11,15 +11,15 @@
 #include "Bag.h"
 
 
-template <class NUM>
+template <typename T>
 class IPBag {
 public:
-  typedef std::pair<NUM, std::vector<NUM> > value_type;
-  typedef NUM                               idx_type;
+  typedef std::pair<T, std::vector<T> >  value_type;
+  typedef T                              idx_type;
 private:
-  idx_type                                  special_a, special_b;
-  Stack<value_type>                         st_a, st_b;
-  std::map<idx_type, Queue<value_type> >    qu;
+  idx_type                               special_a, special_b;
+  Stack<value_type>                      st_a, st_b;
+  std::map<idx_type, Queue<value_type> > qu;
 public:
   IPBag(const idx_type& idx_a = 0, const idx_type& idx_b = 1)
     : special_a(idx_a),

@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------	*
  *	TraversedDelaneySymbol.h	07-apr-1999  by ODF		*
- *                               Revised 2012/01/26  by ODF             *
+ *                               Revised 2012/01/27  by ODF             *
  * --------------------------------------------------------------------	*/
 
 
@@ -12,7 +12,7 @@
 #include "Bag.h"
 
 
-template<class BT = Queue<std::pair<int,std::vector<int> > > >
+template<typename BT = Queue<std::pair<int,std::vector<int> > > >
 class TraversedDelaneySymbol : public IndirectDelaneySymbol
 {
 public:
@@ -117,7 +117,7 @@ public:
 };
 
 
-template<class BT>
+template<typename BT>
 typename TraversedDelaneySymbol<BT>::size_type
 TraversedDelaneySymbol<BT>::advance_to
 (const elm_type& elm, bool one_more)
@@ -184,7 +184,7 @@ TraversedDelaneySymbol<BT>::advance_to
 }
 
 
-template<class BT>
+template<typename BT>
 void
 TraversedDelaneySymbol<BT>::print (std::ostream& out) const
 {
