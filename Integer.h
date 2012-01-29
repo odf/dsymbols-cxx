@@ -2,7 +2,7 @@
 
 /* --------------------------------------------------------------------	*
  *	Integer.h			17-sep-1998  by ODF		*
- *                               Revised 2012/01/26  by ODF             *
+ *                               Revised 2012/01/29  by ODF             *
  * --------------------------------------------------------------------	*/
 
 
@@ -11,30 +11,11 @@
 
 
 #include <stddef.h>
-#include <tr1/memory>
 #include "gmp.h"
+#include "shared_array.hpp"
 
 
 // ------------------------------------------------------------------------
-
-template<typename T>
-struct array_deleter
-{
-   void operator()(T* p)
-   {
-      delete [] p;
-   }
-};
-
-template<typename T>
-class shared_array : public std::tr1::shared_ptr<T>
-{
-public:
-  shared_array<T>(const size_t n) :
-  std::tr1::shared_ptr<T>(new T[n], array_deleter<T>()) {
-  }
-};
-
 
 /*
 

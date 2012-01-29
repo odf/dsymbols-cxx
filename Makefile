@@ -1,6 +1,6 @@
 # --------------------
 
-CXXFLAGS  = -O -g
+CXXFLAGS  = -O3 -g
 PYHEADERS = /usr/include/python2.7
 
 # --------------------
