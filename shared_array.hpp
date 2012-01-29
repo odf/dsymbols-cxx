@@ -11,16 +11,14 @@ template<typename T>
 class shared_array : public std::tr1::shared_ptr<T>
 {
 private:
+  typedef std::tr1::shared_ptr<T> Ptr;
+
   struct array_deleter {
-    void operator()(T* p) {
-      delete [] p;
-    }
+    void operator()(T* p) { delete [] p; }
   };
   
 public:
-  shared_array<T>(const size_t n) :
-  std::tr1::shared_ptr<T>(new T[n], array_deleter()) {
-  }
+  shared_array<T>(const size_t n) : Ptr(new T[n], array_deleter()) { }
 };
 
 
