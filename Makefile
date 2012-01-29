@@ -9,7 +9,7 @@ PYHEADERS = /usr/include/python2.7
 
 .i.py:
 	swig -python -c++ -shadow $*.i
-	$(CXX) $(CXXFLAGS) -I$(PYHEADERS) $*_wrap.cxx -shared -o _$*.so
+	$(CXX) $(CXXFLAGS) -I$(PYHEADERS) $*_wrap.cxx -shared -lgmp -lm -o _$*.so
 	rm $*_wrap.cxx
 
 # --------------------

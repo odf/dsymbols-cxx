@@ -15,18 +15,16 @@
   typedef std::vector<int>		int_vec;
   typedef std::vector<int_vec>		int_vec2;
   typedef std::pair<int, int_vec>	edge;
+  typedef PriorityQueue<edge, std::vector<edge>, std::greater<edge> > pqueue;
 
   typedef DelaneySymbol				GenericDSymbol;
   typedef SimpleDelaneySymbol			DSymbol;
   typedef DualDelaneySymbol			DualDSymbol;
   typedef SectionDelaneySymbol			SectionDSymbol;
   typedef DelaneySubsymbol			DSubsymbol;
-  typedef TraversedDelaneySymbol		DSymbolBFS;
+  typedef TraversedDelaneySymbol<Queue<edge> >	DSymbolBFS;
   typedef TraversedDelaneySymbol<Stack<edge> >	DSymbolDFS;
-  typedef TraversedDelaneySymbol<PriorityQueue<edge,
-					       std::vector<edge>,
-					       std::greater<edge> > >
-    DSymbolEPS;
+  typedef TraversedDelaneySymbol<pqueue>	DSymbolEPS;
   typedef TraversedDelaneySymbol<IPBag<int> >	DSymbolIPS;
   typedef BinaryDelaneyCover	        	BinCoverDSymbol;
 %}
