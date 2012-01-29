@@ -26,6 +26,16 @@ struct array_deleter
    }
 };
 
+template<typename T>
+class shared_array : public std::tr1::shared_ptr<T>
+{
+public:
+  shared_array<T>(const size_t n) :
+  std::tr1::shared_ptr<T>(new T[n], array_deleter<T>()) {
+  }
+};
+
+
 /*
 
   The class 'Integer' provides a simple wrapper for most of the
@@ -296,12 +306,9 @@ public:
     return mpz_get_d(rep);
   }
 
-  typedef std::tr1::shared_ptr<char> String;
-
-  String
+  shared_array<char>
   get_string(int base = 10) const {
-    String buf(new char[mpz_sizeinbase(rep, base) + 2],
-	       array_deleter<char>());
+    shared_array<char> buf(mpz_sizeinbase(rep, base) + 2);
     mpz_get_str(buf.get(), base, rep);
     return buf;
   }
