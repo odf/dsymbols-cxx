@@ -11,10 +11,20 @@
 
 
 #include <stddef.h>
+#include <tr1/memory>
 #include "gmp.h"
 
 
 // ------------------------------------------------------------------------
+
+template<typename T>
+struct array_deleter
+{
+   void operator()(T* p)
+   {
+      delete [] p;
+   }
+};
 
 /*
 
@@ -286,10 +296,13 @@ public:
     return mpz_get_d(rep);
   }
 
-  char *
+  typedef std::tr1::shared_ptr<char> String;
+
+  String
   get_string(int base = 10) const {
-    char *buf = new char[mpz_sizeinbase(rep, base) + 2];
-    mpz_get_str(buf, base, rep);
+    String buf(new char[mpz_sizeinbase(rep, base) + 2],
+	       array_deleter<char>());
+    mpz_get_str(buf.get(), base, rep);
     return buf;
   }
 
@@ -297,9 +310,7 @@ public:
 
   void
   print(std::ostream& out) const {
-    char *buf = get_string();
-    out << buf;
-    delete[] buf;
+    out << get_string();
   }
 };
 
